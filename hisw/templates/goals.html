@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Goals
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h1>Set a New Goal</h1>
+        <form action="/goals" method="POST">
+            <label for="goal">Goal:</label>
+            <input type="text" id="goal" name="goal" required>
+
+            <label for="target_date">Target Date:</label>
+            <input type="date" id="target_date" name="target_date" required>
+
+            <button type="submit">Add Goal</button>
+        </form>
+
+        <h2>Your Goals</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Goal</th>
+                    <th>Target Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for goal in goals %}
+                    <tr class="{% if goal.completed %}completed-goal{% endif %}">
+                        <td>{{ goal.goal }}</td>
+                        <td>{{ goal.target_date }}</td>
+                        <td>
+                            {% if not goal.completed %}
+                                <form method="POST" action="/complete_goal/{{ goal.id }}" style="display:inline;">
+                                    <button type="submit">Complete</button>
+                                </form>
+                            {% endif %}
+                            <form method="POST" action="/delete_goal/{{ goal.id }}" style="display:inline;">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

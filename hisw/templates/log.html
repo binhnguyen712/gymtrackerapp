@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h1>Log Workout</h1>
+        <form id="workout" action="/log" method="POST">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="muscles">Target muscles</label>
+            <input type="text" id="muscles" name="muscles" required>
+
+            <div id="exerciseForms">
+                <!-- First exercise form (default, cannot be removed) -->
+                <div class="exercise-form" id="exercise-form-0">
+                    <label for="exercise_0">Exercise</label>
+                    <input type="text" id="exercise_0" name="exercise_0" required>
+
+                    <label for="sets_0">Number of Sets</label>
+                    <input type="number" id="sets_0" name="sets_0" required>
+
+                    <label for="weight_0">Weight (kg)</label>
+                    <input type="number" id="weight_0" name="weight_0" required>
+                </div>
+            </div>
+
+            <button type="button" id="addExerciseBtn">More Exercise</button>
+            <input type="hidden" id="exercise_count" name="exercise_count" value="1">
+            <button type="submit">Schedule</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let exerciseCount = 1; // Start counting from 1, since 0 is already used
+
+            document.getElementById('addExerciseBtn').addEventListener('click', function() {
+                const exerciseForm = document.createElement('div');
+                exerciseForm.className = 'exercise-form';
+                exerciseForm.id = `exercise-form-${exerciseCount}`; // Update ID here
+                exerciseForm.innerHTML = `
+                    <label for="exercise_${exerciseCount}">Exercise</label>
+                    <input type="text" id="exercise_${exerciseCount}" name="exercise_${exerciseCount}" required>
+
+                    <label for="sets_${exerciseCount}">Number of Sets</label>
+                    <input type="number" id="sets_${exerciseCount}" name="sets_${exerciseCount}" required>
+
+                    <label for="weight_${exerciseCount}">Weight (kg)</label>
+                    <input type="number" id="weight_${exerciseCount}" name="weight_${exerciseCount}" required>
+
+                    <button type="button" class="removeExerciseBtn" onclick="removeExercise(${exerciseCount})">Remove Exercise</button>
+                `;
+
+                document.getElementById('exerciseForms').appendChild(exerciseForm);
+                exerciseCount++;
+                document.getElementById('exercise_count').value = exerciseCount; // Update the hidden input value
+            });
+        });
+
+        function removeExercise(index) {
+            // Prevent removing the first exercise form
+            if (index === 0) {
+                console.warn("The first exercise form cannot be removed.");
+                return;
+            }
+
+            const exerciseForm = document.getElementById(`exercise-form-${index}`);
+            if (exerciseForm) {
+                exerciseForm.remove(); // This will remove the entire form
+            } else {
+                console.error(`Exercise form with index ${index} not found.`);
+            }
+        }
+    </script>
+
+{% endblock %}

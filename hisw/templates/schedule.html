@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block title %}
+    Schedule
+{% endblock %}
+{% block main %}
+    <div class="container">
+        <h1>Workout Schedule</h1>
+        <form action = "/schedule" method="POST">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            <button type="submmit">View Workouts</button>
+        </form>
+        {% if selected_date %}
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Automatically submit the form if a date is already selected
+                    document.getElementById("scheduleForm").submit();
+                });
+            </script>
+        {% endif %}
+        
+        {% if selected_date and workouts %}
+            <h2>Workout for {{selected_date}} </h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Exercise</th>
+                        <th>Target Muscles</th>
+                        <th>Sets</th>
+                        <th>Weight (kg)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for workout in workouts %}
+                        <tr>
+                            <td>{{workout.exercise_name}}</td>
+                            <td>{{workout.target_muscles}}</td>
+                            <td>{{workout.sets}}</td>
+                            <td>{{workout.weight}}</td>
+                            <td>
+                                <form method="POST" action="/edit_exercise/{{ workout.exercise_id }}" style="display:inline;">
+                                    <button type="submit">Edit</button>
+                                </form>
+                                <form method="POST" action="/delete_exercise/{{ workout.exercise_id }}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this exercise?');">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% elif selected_date %}
+            <p>No workouts logged for this date.</p>
+        {% endif %}
+    </div>
+{% endblock %}

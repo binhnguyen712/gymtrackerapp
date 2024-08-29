@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Workout
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h1>Edit Exercise</h1>
+        <form action="/edit_exercise/{{ exercise.id }}" method="POST">
+            <label for="exercise_name">Exercise:</label>
+            <input type="text" id="exercise_name" name="exercise_name" value="{{ exercise.exercise_name }}" required>
+
+            <label for="sets">Number of Sets:</label>
+            <input type="number" id="sets" name="sets" value="{{ exercise.sets }}" required>
+
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight" name="weight" value="{{ exercise.weight }}" required>
+            
+            <button type="submit">Update Exercise</button>
+        </form>
+    </div>
+{% endblock %}

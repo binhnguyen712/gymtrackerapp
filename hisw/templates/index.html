@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <div class="header">
+        <h1>Health is Wealth</h1>
+        <p class="lead">Plan and track your workout and diet to improve and reach your goals.</p>
+    </div>
+    <div class="content">
+        <div class="content-heading">Our Services</div>
+        <div class="box" onclick="location.href='/log'">
+            <h3>Log Workout</h3>
+            <p>Easily log and track your workouts to stay on top of your fitness regime.</p>
+        </div>
+        <div class="box" onclick="location.href='/calculators'">
+            <h3>Calculate Body Measurements</h3>
+            <p>Track your body measurements to monitor your progress and adjust your plan accordingly.</p>
+        </div>
+        <div class="box" onclick="location.href='/goals'">
+            <h3>Set Goals</h3>
+            <p>Set and track fitness goals to stay motivated and on track.</p>
+        </div>
+        <div class="box" onclick="location.href='/schedule'">
+            <h3>Schedule</h3>
+            <p>See all your workouts and modify it.</p>
+        </div>
+        <div class="box" onclick="location.href='/askai'">
+            <h3>Chat with AI</h3>
+            <p>Get personalized advice and answers to your workout, diet, and nutrition questions from our AI bot.</p>
+        </div>
+    </div>
+{% endblock %}
